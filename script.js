@@ -10,9 +10,13 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <div class="aurora aurora-1"></div>
+    <div class="aurora aurora-2"></div>
     <div class="sparkles sparkles-1"></div>
     <div class="sparkles sparkles-2"></div>
     <div class="snowfall"></div>
+    <div class="lights lights-left"></div>
+    <div class="lights lights-right"></div>
 
     <div id="login-screen" class="login-screen">
       <div class="password-card">
@@ -72,9 +76,7 @@
           <h3>Meine Weihnachts-Wunschliste</h3>
         </div>
 
-        <div id="wish-grid" class="gift-grid">
-          <!-- Dynamisch gefüllte Wunschkarten -->
-        </div>
+        <div id="wish-grid" class="gift-grid"></div>
 
         <div class="add-wish-section">
           <button id="add-wish-btn" class="add-wish-btn" type="button">+ Neuer Wunsch hinzufügen</button>
@@ -87,6 +89,7 @@
             <h2>Neuen Wunsch hinzufügen</h2>
             <button class="close-btn" id="close-modal" aria-label="Schließen">✕</button>
           </div>
+
           <form id="wish-form">
             <div class="form-group">
               <label for="wish-title">Wunsch-Name *</label>

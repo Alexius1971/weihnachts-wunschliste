@@ -162,6 +162,8 @@ button:hover {
   max-width: 1200px;
   margin: 0 auto;
   padding: 24px 16px 80px;
+  position: relative;
+  z-index: 1;
 }
 
 .topbar {
@@ -209,6 +211,7 @@ button:hover {
   border-radius: 26px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
   border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
 }
 
 .hero-text h2 {
@@ -564,6 +567,48 @@ button:hover {
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.aurora {
+  position: fixed;
+  width: 40vw;
+  height: 40vw;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.aurora-1 {
+  top: -8%;
+  left: -5%;
+  background: rgba(255, 85, 85, 0.32);
+}
+
+.aurora-2 {
+  right: -8%;
+  bottom: -10%;
+  background: rgba(84, 186, 255, 0.26);
+}
+
+.lights {
+  position: fixed;
+  top: 0;
+  width: 18px;
+  height: 100vh;
+  background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.8) 12%, transparent 24%, transparent 100%);
+  filter: blur(1px);
+  opacity: 0.7;
+  z-index: 0;
+}
+
+.lights-left {
+  left: 12%;
+}
+
+.lights-right {
+  right: 12%;
+}
+
 .snowfall {
   position: fixed;
   inset: 0;
@@ -575,6 +620,7 @@ button:hover {
   background-position: 0 0, 40px 80px, 90px 30px;
   opacity: 0.9;
   pointer-events: none;
+  z-index: 0;
 }
 
 .sparkles {
@@ -583,6 +629,7 @@ button:hover {
   pointer-events: none;
   background-repeat: repeat;
   opacity: 0.5;
+  z-index: 0;
 }
 
 .sparkles-1 {

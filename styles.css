@@ -18,7 +18,51 @@ let wishes = [];
 
 function loadWishes() {
   const saved = localStorage.getItem("wishes");
-  wishes = saved ? JSON.parse(saved) : [];
+  wishes = saved ? JSON.parse(saved) : [
+    {
+      title: "Weihnachtsdeko für mein Zimmer",
+      description: "Schöne warme Lichter, kleine Weihnachtskugeln und ein gemütlicher Eindruck.",
+      image: "https://images.unsplash.com/photo-1513639725746-c5d3e861f32a?auto=format&fit=crop&w=900&q=80",
+      link: "https://www.amazon.de/",
+      price: "€45"
+    },
+    {
+      title: "Kuscheldecke",
+      description: "Eine superweiche Decke für kalte Abende und gemütliche Stunden.",
+      image: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=900&q=80",
+      link: "https://www.amazon.de/",
+      price: "€39"
+    },
+    {
+      title: "Weihnachtsduftkerzen",
+      description: "Zimt, Vanille und ein angenehmer Duft für die ganze Wohnung.",
+      image: "https://images.unsplash.com/photo-1602872029707-8b5e1d5af7f8?auto=format&fit=crop&w=900&q=80",
+      link: "https://www.amazon.de/",
+      price: "€24"
+    },
+    {
+      title: "Schöner Weihnachtsroman",
+      description: "Ein Buch, das richtig nach Winter und Gemütlichkeit riecht.",
+      image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=900&q=80",
+      link: "https://www.amazon.de/",
+      price: "€18"
+    },
+    {
+      title: "Kaffeezeit-Set",
+      description: "Für gemütliche Advents-Morgen mit Tee, Keksen und Wärme.",
+      image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80",
+      link: "https://www.amazon.de/",
+      price: "€28"
+    },
+    {
+      title: "Winter-Schal",
+      description: "Ein toller Schal für lockere, kalte Tage draußen.",
+      image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=900&q=80",
+      link: "https://www.amazon.de/",
+      price: "€22"
+    }
+  ];
+  saveWishes();
   renderWishes();
 }
 
@@ -65,7 +109,7 @@ function renderWishes() {
 
   document.querySelectorAll(".delete-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
-      const index = parseInt(e.target.dataset.index, 10);
+      const index = Number(e.currentTarget.dataset.index);
       if (confirm("Wirklich löschen?")) {
         wishes.splice(index, 1);
         saveWishes();
@@ -76,7 +120,7 @@ function renderWishes() {
 
   document.querySelectorAll(".edit-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
-      const index = parseInt(e.target.dataset.index, 10);
+      const index = Number(e.currentTarget.dataset.index);
       editWish(index);
     });
   });
@@ -168,7 +212,7 @@ wishForm.addEventListener("submit", (e) => {
   const editIndex = wishForm.dataset.editIndex;
 
   if (editIndex !== undefined) {
-    wishes[parseInt(editIndex, 10)] = { title, description, image, link, price };
+    wishes[Number(editIndex)] = { title, description, image, link, price };
   } else {
     wishes.push({ title, description, image, link, price });
   }
@@ -189,4 +233,3 @@ window.addEventListener("keydown", (event) => {
 });
 
 passwordInput.focus();
-
