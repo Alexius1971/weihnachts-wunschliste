@@ -1,528 +1,192 @@
-* {
-  box-sizing: border-box;
+const correctPassword = "Alex1971";
+
+const loginScreen = document.getElementById("login-screen");
+const app = document.getElementById("app");
+const form = document.getElementById("password-form");
+const passwordInput = document.getElementById("password");
+const errorMsg = document.getElementById("error-msg");
+const logoutBtn = document.getElementById("logout-btn");
+
+const wishGrid = document.getElementById("wish-grid");
+const addWishBtn = document.getElementById("add-wish-btn");
+const wishModal = document.getElementById("wish-modal");
+const wishForm = document.getElementById("wish-form");
+const closeModalBtn = document.getElementById("close-modal");
+const cancelWishBtn = document.getElementById("cancel-wish");
+
+let wishes = [];
+
+function loadWishes() {
+  const saved = localStorage.getItem("wishes");
+  wishes = saved ? JSON.parse(saved) : [];
+  renderWishes();
 }
 
-:root {
-  --bg-deep: #0d1236;
-  --bg-mid: #1a1f4d;
-  --card: rgba(255, 255, 255, 0.1);
-  --card-strong: rgba(255, 255, 255, 0.14);
-  --gold: #f7d76e;
-  --gold-strong: #ffd56f;
-  --red: #d72638;
-  --red-deep: #9f1d2e;
-  --green: #2e9d5a;
-  --green-dark: #1d7440;
-  --text: #fffaf3;
-  --muted: #f8e9d7;
-  --shadow: rgba(0, 0, 0, 0.25);
+function saveWishes() {
+  localStorage.setItem("wishes", JSON.stringify(wishes));
 }
 
-html, body {
-  margin: 0;
-  min-height: 100%;
-  font-family: "Inter", sans-serif;
-  background:
-    radial-gradient(circle at top, rgba(251, 195, 90, 0.28), transparent 35%),
-    linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-mid) 38%, #2b1540 100%);
-  color: var(--text);
-}
+function renderWishes() {
+  wishGrid.innerHTML = "";
 
-body {
-  position: relative;
-  overflow-x: hidden;
-}
-
-.hidden {
-  display: none !important;
-}
-
-.login-screen {
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  padding: 30px 16px;
-}
-
-.password-card {
-  position: relative;
-  width: min(500px, 100%);
-  padding: 56px 32px 38px;
-  border-radius: 28px;
-  background: rgba(11, 12, 28, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(10px);
-  text-align: center;
-}
-
-.eyebrow {
-  margin: 0 0 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.22em;
-  font-size: 0.7rem;
-  color: var(--gold);
-}
-
-.password-card h1 {
-  margin: 0 0 20px;
-  font-size: clamp(2.3rem, 5vw, 3.4rem);
-  font-family: "Mountains of Christmas", cursive;
-  color: #fff3cf;
-  text-shadow: 0 0 18px rgba(255, 215, 110, 0.8);
-}
-
-form {
-  margin-top: 14px;
-}
-
-label {
-  display: block;
-  margin-bottom: 12px;
-  font-weight: 600;
-  color: var(--muted);
-}
-
-.input-wrap {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 16px;
-  padding: 8px 10px 8px 14px;
-}
-
-input[type="password"] {
-  flex: 1;
-  border: none;
-  background: transparent;
-  color: var(--text);
-  font-size: 1rem;
-  outline: none;
-}
-
-input[type="password"]::placeholder {
-  color: rgba(255, 255, 255, 0.5);
-}
-
-button {
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--red), var(--red-deep));
-  color: white;
-  font-weight: 700;
-  padding: 0.9rem 1.3rem;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 8px 18px rgba(159, 29, 46, 0.45);
-}
-
-button:hover {
-  transform: translateY(-1px);
-}
-
-.error-msg {
-  min-height: 1.6em;
-  margin: 12px 0 0;
-  font-size: 0.92rem;
-  color: #ffd6d6;
-}
-
-.ornament {
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--gold), #fff1b5);
-  box-shadow: 0 0 16px rgba(255, 214, 111, 0.8);
-}
-
-.ornament-left {
-  left: 30px;
-  top: 28px;
-}
-
-.ornament-right {
-  right: 30px;
-  top: 28px;
-}
-
-.app {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 24px 16px 80px;
-}
-
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 18px;
-  margin-bottom: 32px;
-  padding: 18px 22px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 18px;
-  backdrop-filter: blur(8px);
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: #fff5dc;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-}
-
-.star {
-  color: var(--gold);
-  font-size: 1.2rem;
-}
-
-.logout-btn {
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: none;
-  color: var(--text);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.hero {
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 30px;
-  align-items: center;
-  padding: 30px 20px;
-  border-radius: 26px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
-  border: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-.hero-text h2 {
-  margin: 0 0 16px;
-  font-family: "Mountains of Christmas", cursive;
-  font-size: clamp(2.3rem, 4vw, 4rem);
-  line-height: 1;
-  color: #fff7d9;
-}
-
-.hero-text p:not(.eyebrow) {
-  margin: 0;
-  max-width: 560px;
-  color: var(--muted);
-  line-height: 1.7;
-  font-size: 1.05rem;
-}
-
-.hero-illustration {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 290px;
-}
-
-.tree {
-  position: relative;
-  width: 260px;
-  height: 260px;
-}
-
-.tree-top,
-.tree-mid,
-.tree-bottom {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 20px 20px 0 0;
-  background: linear-gradient(180deg, #4ad577, var(--green-dark));
-  box-shadow: inset 0 -15px 0 rgba(255, 255, 255, 0.09);
-}
-
-.tree-top {
-  bottom: 90px;
-  width: 120px;
-  height: 70px;
-  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
-}
-
-.tree-mid {
-  bottom: 40px;
-  width: 180px;
-  height: 110px;
-  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
-}
-
-.tree-bottom {
-  bottom: 0;
-  width: 220px;
-  height: 140px;
-  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
-}
-
-.tree-trunk {
-  position: absolute;
-  left: 50%;
-  bottom: -18px;
-  width: 34px;
-  height: 58px;
-  transform: translateX(-50%);
-  background: linear-gradient(180deg, #7c4a28, #513319);
-  border-radius: 8px;
-}
-
-.ornament.o1, .ornament.o2, .ornament.o3, .ornament.o4 {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #fff8d7, #f9d840);
-}
-
-.o1 { left: 120px; bottom: 120px; }
-.o2 { left: 145px; bottom: 90px; }
-.o3 { right: 80px; bottom: 110px; }
-.o4 { left: 90px; bottom: 64px; }
-
-.star-tree {
-  position: absolute;
-  left: 50%;
-  top: 8px;
-  transform: translateX(-50%);
-  color: #ffe38a;
-  font-size: 2.4rem;
-  text-shadow: 0 0 18px rgba(255, 214, 111, 0.9);
-}
-
-.wishlist {
-  margin-top: 42px;
-}
-
-.section-heading {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.badge {
-  display: inline-block;
-  align-self: flex-start;
-  background: rgba(255, 214, 111, 0.12);
-  color: #f8df93;
-  border: 1px solid rgba(255, 214, 111, 0.22);
-  border-radius: 999px;
-  padding: 0.5rem 0.9rem;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.section-heading h3 {
-  margin: 0;
-  font-size: clamp(1.7rem, 2vw, 2.5rem);
-  color: #fff6db;
-  font-family: "Mountains of Christmas", cursive;
-}
-
-.gift-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(220px, 1fr));
-  gap: 22px;
-}
-
-.wish-card {
-  position: relative;
-  padding: 24px 20px 18px;
-  border-radius: 24px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03));
-  border: 1px solid rgba(255,255,255,0.08);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-}
-
-.wish-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  background: linear-gradient(135deg, rgba(255, 214, 111, 0.08), transparent 42%, rgba(255,255,255,0.02));
-}
-
-.gift-icon {
-  font-size: 2rem;
-  margin-bottom: 10px;
-}
-
-.wish-card h4 {
-  margin: 0 0 10px;
-  font-size: 1.3rem;
-  color: #fff8e6;
-}
-
-.wish-card p {
-  margin: 0;
-  line-height: 1.6;
-  color: var(--muted);
-}
-
-.price {
-  display: inline-block;
-  margin-top: 16px;
-  background: rgba(254, 215, 111, 0.18);
-  border: 1px solid rgba(254, 215, 111, 0.24);
-  color: #ffe79f;
-  border-radius: 999px;
-  padding: 0.4rem 0.8rem;
-  font-weight: 700;
-}
-
-.notes {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin-top: 42px;
-}
-
-.note-card {
-  padding: 26px 22px;
-  border-radius: 24px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.08);
-}
-
-.note-card h3 {
-  margin-top: 0;
-  margin-bottom: 18px;
-  font-size: 1.5rem;
-  color: #fff7db;
-  font-family: "Mountains of Christmas", cursive;
-}
-
-.note-card ul {
-  margin: 0;
-  padding-left: 1.2rem;
-  line-height: 2;
-  color: var(--muted);
-}
-
-.note-card.festive {
-  background: linear-gradient(160deg, rgba(215, 38, 56, 0.18), rgba(255,255,255,0.05));
-}
-
-.note-card.festive p {
-  margin: 0;
-  line-height: 1.9;
-  color: #fff0cd;
-  font-size: 1.06rem;
-}
-
-.snowfall {
-  position: fixed;
-  inset: 0;
-  background-image:
-    radial-gradient(circle, rgba(255,255,255,0.8) 0 1px, transparent 1.6px),
-    radial-gradient(circle, rgba(255,255,255,0.7) 0 1.2px, transparent 2px),
-    radial-gradient(circle, rgba(255,255,255,0.9) 0 1px, transparent 1.8px);
-  background-size: 160px 160px;
-  background-position: 0 0, 40px 80px, 90px 30px;
-  opacity: 0.9;
-  pointer-events: none;
-}
-
-.sparkles {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background-repeat: repeat;
-  opacity: 0.5;
-}
-
-.sparkles-1 {
-  background-image:
-    radial-gradient(circle, rgba(255, 215, 111, 0.95) 0 1.5px, transparent 2.5px),
-    radial-gradient(circle, rgba(255, 255, 255, 0.9) 0 1.2px, transparent 2.2px);
-  background-size: 120px 120px;
-  mix-blend-mode: screen;
-}
-
-.sparkles-2 {
-  background-image:
-    radial-gradient(circle, rgba(255, 126, 140, 0.9) 0 1.5px, transparent 2.5px),
-    radial-gradient(circle, rgba(255, 255, 255, 0.9) 0 1px, transparent 2px);
-  background-size: 150px 150px;
-  opacity: 0.35;
-}
-
-@media (max-width: 900px) {
-  .hero {
-    grid-template-columns: 1fr;
+  if (wishes.length === 0) {
+    wishGrid.innerHTML = '<p class="no-wishes">Noch keine Wünsche hinzugefügt. Klick auf "+ Neuer Wunsch" um zu beginnen!</p>';
+    return;
   }
 
-  .gift-grid {
-    grid-template-columns: repeat(2, minmax(220px, 1fr));
-  }
+  wishes.forEach((wish, index) => {
+    const card = document.createElement("article");
+    card.className = "wish-card";
 
-  .notes {
-    grid-template-columns: 1fr;
-  }
+    const imageHtml = wish.image
+      ? `<img src="${wish.image}" alt="${wish.title}" class="wish-image" onerror="this.style.display='none'">`
+      : '<div class="no-image">📷</div>';
+
+    const linkHtml = wish.link
+      ? `<a href="${wish.link}" target="_blank" rel="noopener noreferrer" class="product-link">Link anschauen →</a>`
+      : "";
+
+    card.innerHTML = `
+      <div class="wish-image-container">
+        ${imageHtml}
+      </div>
+      <h4>${wish.title}</h4>
+      ${wish.description ? `<p>${wish.description}</p>` : ""}
+      ${wish.price ? `<span class="price">${wish.price}</span>` : ""}
+      ${linkHtml}
+      <div class="card-actions">
+        <button class="edit-btn" data-index="${index}" type="button">✏️ Bearbeiten</button>
+        <button class="delete-btn" data-index="${index}" type="button">🗑️ Löschen</button>
+      </div>
+    `;
+
+    wishGrid.appendChild(card);
+  });
+
+  document.querySelectorAll(".delete-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const index = parseInt(e.target.dataset.index, 10);
+      if (confirm("Wirklich löschen?")) {
+        wishes.splice(index, 1);
+        saveWishes();
+        renderWishes();
+      }
+    });
+  });
+
+  document.querySelectorAll(".edit-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const index = parseInt(e.target.dataset.index, 10);
+      editWish(index);
+    });
+  });
 }
 
-@media (max-width: 600px) {
-  .topbar {
-    flex-direction: column;
-  }
+function editWish(index) {
+  const wish = wishes[index];
+  document.getElementById("wish-title").value = wish.title;
+  document.getElementById("wish-description").value = wish.description || "";
+  document.getElementById("wish-image").value = wish.image || "";
+  document.getElementById("wish-link").value = wish.link || "";
+  document.getElementById("wish-price").value = wish.price || "";
 
-  .gift-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .input-wrap {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 12px;
-  }
-
-  button {
-    width: 100%;
-  }
+  wishForm.dataset.editIndex = index;
+  openModal();
 }
 
+function openModal() {
+  wishModal.classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+}
 
+function closeModal() {
+  wishModal.classList.add("hidden");
+  document.body.style.overflow = "auto";
+  wishForm.reset();
+  delete wishForm.dataset.editIndex;
+}
 
+function unlockPage() {
+  loginScreen.classList.add("hidden");
+  app.classList.remove("hidden");
+  passwordInput.value = "";
+  errorMsg.textContent = "";
+  loadWishes();
+}
 
+function lockPage() {
+  app.classList.add("hidden");
+  loginScreen.classList.remove("hidden");
+  passwordInput.value = "";
+  errorMsg.textContent = "";
+}
 
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const enteredPassword = passwordInput.value.trim();
 
+  if (enteredPassword === correctPassword) {
+    unlockPage();
+  } else {
+    errorMsg.textContent = "Falsches Passwort. Bitte versuche es erneut.";
+    passwordInput.focus();
+  }
+});
 
+logoutBtn.addEventListener("click", () => {
+  lockPage();
+  passwordInput.focus();
+});
 
+addWishBtn.addEventListener("click", () => {
+  openModal();
+});
 
+closeModalBtn.addEventListener("click", closeModal);
+cancelWishBtn.addEventListener("click", closeModal);
 
+wishModal.addEventListener("click", (e) => {
+  if (e.target === wishModal) {
+    closeModal();
+  }
+});
 
+wishForm.addEventListener("submit", (e) => {
+  e.preventDefault();
 
+  const title = document.getElementById("wish-title").value.trim();
+  const description = document.getElementById("wish-description").value.trim();
+  const image = document.getElementById("wish-image").value.trim();
+  const link = document.getElementById("wish-link").value.trim();
+  const price = document.getElementById("wish-price").value.trim();
 
+  if (!title) {
+    alert("Bitte gib einen Namen für deinen Wunsch ein!");
+    return;
+  }
 
+  const editIndex = wishForm.dataset.editIndex;
 
+  if (editIndex !== undefined) {
+    wishes[parseInt(editIndex, 10)] = { title, description, image, link, price };
+  } else {
+    wishes.push({ title, description, image, link, price });
+  }
 
+  saveWishes();
+  renderWishes();
+  closeModal();
+});
 
+window.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    if (!wishModal.classList.contains("hidden")) {
+      closeModal();
+    } else if (!loginScreen.classList.contains("hidden")) {
+      passwordInput.focus();
+    }
+  }
+});
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+passwordInput.focus();
 

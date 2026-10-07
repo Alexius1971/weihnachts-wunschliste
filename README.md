@@ -1,2 +1,637 @@
-# weihnachts-wunschliste
-Eine geschützte Weihnachts-Wunschliste mit festlicher Deko
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-deep: #0d1236;
+  --bg-mid: #1a1f4d;
+  --card: rgba(255, 255, 255, 0.1);
+  --card-strong: rgba(255, 255, 255, 0.14);
+  --gold: #f7d76e;
+  --gold-strong: #ffd56f;
+  --red: #d72638;
+  --red-deep: #9f1d2e;
+  --green: #2e9d5a;
+  --green-dark: #1d7440;
+  --text: #fffaf3;
+  --muted: #f8e9d7;
+  --shadow: rgba(0, 0, 0, 0.25);
+}
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  font-family: "Inter", sans-serif;
+  background:
+    radial-gradient(circle at top, rgba(251, 195, 90, 0.28), transparent 35%),
+    linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-mid) 38%, #2b1540 100%);
+  color: var(--text);
+}
+
+body {
+  position: relative;
+  overflow-x: hidden;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.login-screen {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 30px 16px;
+}
+
+.password-card {
+  position: relative;
+  width: min(500px, 100%);
+  padding: 56px 32px 38px;
+  border-radius: 28px;
+  background: rgba(11, 12, 28, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.7rem;
+  color: var(--gold);
+}
+
+.password-card h1 {
+  margin: 0 0 20px;
+  font-size: clamp(2.3rem, 5vw, 3.4rem);
+  font-family: "Mountains of Christmas", cursive;
+  color: #fff3cf;
+  text-shadow: 0 0 18px rgba(255, 215, 110, 0.8);
+}
+
+form {
+  margin-top: 14px;
+}
+
+label {
+  display: block;
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.input-wrap {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  padding: 8px 10px 8px 14px;
+}
+
+input[type="password"],
+input[type="text"],
+input[type="url"],
+textarea {
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 1rem;
+  outline: none;
+  font-family: inherit;
+}
+
+input[type="password"]::placeholder,
+input[type="text"]::placeholder,
+input[type="url"]::placeholder,
+textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.input-wrap input {
+  flex: 1;
+}
+
+button {
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--red), var(--red-deep));
+  color: white;
+  font-weight: 700;
+  padding: 0.9rem 1.3rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 8px 18px rgba(159, 29, 46, 0.45);
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+.error-msg {
+  min-height: 1.6em;
+  margin: 12px 0 0;
+  font-size: 0.92rem;
+  color: #ffd6d6;
+}
+
+.ornament {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), #fff1b5);
+  box-shadow: 0 0 16px rgba(255, 214, 111, 0.8);
+}
+
+.ornament-left {
+  left: 30px;
+  top: 28px;
+}
+
+.ornament-right {
+  right: 30px;
+  top: 28px;
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px 80px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 32px;
+  padding: 18px 22px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  backdrop-filter: blur(8px);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #fff5dc;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.star {
+  color: var(--gold);
+  font-size: 1.2rem;
+}
+
+.logout-btn {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+  color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 30px;
+  align-items: center;
+  padding: 30px 20px;
+  border-radius: 26px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.hero-text h2 {
+  margin: 0 0 16px;
+  font-family: "Mountains of Christmas", cursive;
+  font-size: clamp(2.3rem, 4vw, 4rem);
+  line-height: 1;
+  color: #fff7d9;
+}
+
+.hero-text p:not(.eyebrow) {
+  margin: 0;
+  max-width: 560px;
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+
+.hero-illustration {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 290px;
+}
+
+.tree {
+  position: relative;
+  width: 260px;
+  height: 260px;
+}
+
+.tree-top,
+.tree-mid,
+.tree-bottom {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 20px 20px 0 0;
+  background: linear-gradient(180deg, #4ad577, var(--green-dark));
+  box-shadow: inset 0 -15px 0 rgba(255, 255, 255, 0.09);
+}
+
+.tree-top {
+  bottom: 90px;
+  width: 120px;
+  height: 70px;
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+}
+
+.tree-mid {
+  bottom: 40px;
+  width: 180px;
+  height: 110px;
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+}
+
+.tree-bottom {
+  bottom: 0;
+  width: 220px;
+  height: 140px;
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+}
+
+.tree-trunk {
+  position: absolute;
+  left: 50%;
+  bottom: -18px;
+  width: 34px;
+  height: 58px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, #7c4a28, #513319);
+  border-radius: 8px;
+}
+
+.ornament.o1, .ornament.o2, .ornament.o3, .ornament.o4 {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #fff8d7, #f9d840);
+}
+
+.o1 { left: 120px; bottom: 120px; }
+.o2 { left: 145px; bottom: 90px; }
+.o3 { right: 80px; bottom: 110px; }
+.o4 { left: 90px; bottom: 64px; }
+
+.star-tree {
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  transform: translateX(-50%);
+  color: #ffe38a;
+  font-size: 2.4rem;
+  text-shadow: 0 0 18px rgba(255, 214, 111, 0.9);
+}
+
+.wishlist {
+  margin-top: 42px;
+}
+
+.section-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.badge {
+  display: inline-block;
+  align-self: flex-start;
+  background: rgba(255, 214, 111, 0.12);
+  color: #f8df93;
+  border: 1px solid rgba(255, 214, 111, 0.22);
+  border-radius: 999px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.section-heading h3 {
+  margin: 0;
+  font-size: clamp(1.7rem, 2vw, 2.5rem);
+  color: #fff6db;
+  font-family: "Mountains of Christmas", cursive;
+}
+
+.gift-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(220px, 1fr));
+  gap: 22px;
+}
+
+.no-wishes {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--muted);
+  padding: 40px 20px;
+  font-size: 1.1rem;
+}
+
+.wish-card {
+  position: relative;
+  padding: 20px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03));
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.wish-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 214, 111, 0.08), transparent 42%, rgba(255,255,255,0.02));
+}
+
+.wish-image-container {
+  width: 100%;
+  height: 180px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wish-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.no-image {
+  font-size: 3rem;
+}
+
+.wish-card h4 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #fff8e6;
+}
+
+.wish-card p {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.price {
+  display: inline-block;
+  background: rgba(254, 215, 111, 0.18);
+  border: 1px solid rgba(254, 215, 111, 0.24);
+  color: #ffe79f;
+  border-radius: 999px;
+  padding: 0.4rem 0.8rem;
+  font-weight: 700;
+  width: fit-content;
+}
+
+.product-link {
+  display: inline-block;
+  color: #87ceeb;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.5rem 0;
+  border-bottom: 2px solid rgba(135, 206, 235, 0.3);
+  transition: border-color 0.2s;
+}
+
+.product-link:hover {
+  border-bottom-color: #87ceeb;
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.edit-btn, .delete-btn {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: none;
+  color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.edit-btn:hover, .delete-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.add-wish-section {
+  margin-top: 32px;
+  text-align: center;
+}
+
+.add-wish-btn {
+  background: linear-gradient(135deg, var(--green), var(--green-dark));
+  box-shadow: 0 8px 18px rgba(46, 157, 90, 0.45);
+  padding: 1rem 2.2rem;
+  font-size: 1.05rem;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.modal-content {
+  width: min(600px, 100%);
+  background: var(--bg-deep);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 32px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  color: #fff6db;
+  font-family: "Mountains of Christmas", cursive;
+}
+
+.close-btn {
+  background: transparent;
+  box-shadow: none;
+  color: var(--muted);
+  border: none;
+  padding: 0;
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  color: var(--text);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-group small {
+  display: block;
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.8rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.submit-btn {
+  flex: 1;
+  background: linear-gradient(135deg, var(--red), var(--red-deep));
+}
+
+.cancel-btn {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+  color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.snowfall {
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.8) 0 1px, transparent 1.6px),
+    radial-gradient(circle, rgba(255,255,255,0.7) 0 1.2px, transparent 2px),
+    radial-gradient(circle, rgba(255,255,255,0.9) 0 1px, transparent 1.8px);
+  background-size: 160px 160px;
+  background-position: 0 0, 40px 80px, 90px 30px;
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.sparkles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-repeat: repeat;
+  opacity: 0.5;
+}
+
+.sparkles-1 {
+  background-image:
+    radial-gradient(circle, rgba(255, 215, 111, 0.95) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.9) 0 1.2px, transparent 2.2px);
+  background-size: 120px 120px;
+  mix-blend-mode: screen;
+}
+
+.sparkles-2 {
+  background-image:
+    radial-gradient(circle, rgba(255, 126, 140, 0.9) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.9) 0 1px, transparent 2px);
+  background-size: 150px 150px;
+  opacity: 0.35;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .gift-grid {
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .topbar {
+    flex-direction: column;
+  }
+
+  .gift-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .input-wrap {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  .modal-content {
+    padding: 24px;
+  }
+}
+
