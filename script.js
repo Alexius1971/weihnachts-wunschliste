@@ -1,235 +1,133 @@
-const correctPassword = "Alex1971";
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meine Weihnachts-Wunschliste 2026</title>
+    <meta name="description" content="Weihnachts-Wunschliste mit Passwortschutz und festlichem Design" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="aurora aurora-1"></div>
+    <div class="aurora aurora-2"></div>
+    <div class="sparkles sparkles-1"></div>
+    <div class="sparkles sparkles-2"></div>
+    <div class="snowfall"></div>
+    <div class="lights lights-left"></div>
+    <div class="lights lights-right"></div>
 
-const loginScreen = document.getElementById("login-screen");
-const app = document.getElementById("app");
-const form = document.getElementById("password-form");
-const passwordInput = document.getElementById("password");
-const errorMsg = document.getElementById("error-msg");
-const logoutBtn = document.getElementById("logout-btn");
+    <div id="login-screen" class="login-screen">
+      <div class="password-card">
+        <div class="ornament ornament-left"></div>
+        <div class="ornament ornament-right"></div>
 
-const wishGrid = document.getElementById("wish-grid");
-const addWishBtn = document.getElementById("add-wish-btn");
-const wishModal = document.getElementById("wish-modal");
-const wishForm = document.getElementById("wish-form");
-const closeModalBtn = document.getElementById("close-modal");
-const cancelWishBtn = document.getElementById("cancel-wish");
+        <p class="eyebrow">Festliche Überraschung</p>
+        <h1>Meine Weihnachts-Wunschliste 2026</h1>
 
-let wishes = [];
-
-function loadWishes() {
-  const saved = localStorage.getItem("wishes");
-  wishes = saved ? JSON.parse(saved) : [
-    {
-      title: "Weihnachtsdeko für mein Zimmer",
-      description: "Schöne warme Lichter, kleine Weihnachtskugeln und ein gemütlicher Eindruck.",
-      image: "https://images.unsplash.com/photo-1513639725746-c5d3e861f32a?auto=format&fit=crop&w=900&q=80",
-      link: "https://www.amazon.de/",
-      price: "€45"
-    },
-    {
-      title: "Kuscheldecke",
-      description: "Eine superweiche Decke für kalte Abende und gemütliche Stunden.",
-      image: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=900&q=80",
-      link: "https://www.amazon.de/",
-      price: "€39"
-    },
-    {
-      title: "Weihnachtsduftkerzen",
-      description: "Zimt, Vanille und ein angenehmer Duft für die ganze Wohnung.",
-      image: "https://images.unsplash.com/photo-1602872029707-8b5e1d5af7f8?auto=format&fit=crop&w=900&q=80",
-      link: "https://www.amazon.de/",
-      price: "€24"
-    },
-    {
-      title: "Schöner Weihnachtsroman",
-      description: "Ein Buch, das richtig nach Winter und Gemütlichkeit riecht.",
-      image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=900&q=80",
-      link: "https://www.amazon.de/",
-      price: "€18"
-    },
-    {
-      title: "Kaffeezeit-Set",
-      description: "Für gemütliche Advents-Morgen mit Tee, Keksen und Wärme.",
-      image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80",
-      link: "https://www.amazon.de/",
-      price: "€28"
-    },
-    {
-      title: "Winter-Schal",
-      description: "Ein toller Schal für lockere, kalte Tage draußen.",
-      image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=900&q=80",
-      link: "https://www.amazon.de/",
-      price: "€22"
-    }
-  ];
-  saveWishes();
-  renderWishes();
-}
-
-function saveWishes() {
-  localStorage.setItem("wishes", JSON.stringify(wishes));
-}
-
-function renderWishes() {
-  wishGrid.innerHTML = "";
-
-  if (wishes.length === 0) {
-    wishGrid.innerHTML = '<p class="no-wishes">Noch keine Wünsche hinzugefügt. Klick auf "+ Neuer Wunsch" um zu beginnen!</p>';
-    return;
-  }
-
-  wishes.forEach((wish, index) => {
-    const card = document.createElement("article");
-    card.className = "wish-card";
-
-    const imageHtml = wish.image
-      ? `<img src="${wish.image}" alt="${wish.title}" class="wish-image" onerror="this.style.display='none'">`
-      : '<div class="no-image">📷</div>';
-
-    const linkHtml = wish.link
-      ? `<a href="${wish.link}" target="_blank" rel="noopener noreferrer" class="product-link">Link anschauen →</a>`
-      : "";
-
-    card.innerHTML = `
-      <div class="wish-image-container">
-        ${imageHtml}
+        <form id="password-form">
+          <label for="password">Passwort eingeben</label>
+          <div class="input-wrap">
+            <input id="password" type="password" placeholder="••••••••" required />
+            <button type="submit">Entrée</button>
+          </div>
+          <p id="error-msg" class="error-msg" aria-live="polite"></p>
+        </form>
       </div>
-      <h4>${wish.title}</h4>
-      ${wish.description ? `<p>${wish.description}</p>` : ""}
-      ${wish.price ? `<span class="price">${wish.price}</span>` : ""}
-      ${linkHtml}
-      <div class="card-actions">
-        <button class="edit-btn" data-index="${index}" type="button">✏️ Bearbeiten</button>
-        <button class="delete-btn" data-index="${index}" type="button">🗑️ Löschen</button>
+    </div>
+
+    <main id="app" class="app hidden">
+      <header class="topbar">
+        <div class="brand">
+          <span class="star">✦</span>
+          <span>Meine Weihnachts-Wunschliste 2026</span>
+        </div>
+        <button id="logout-btn" class="logout-btn" type="button">Abmelden</button>
+      </header>
+
+      <section class="hero">
+        <div class="hero-text">
+          <p class="eyebrow">Liebe Weihnachten</p>
+          <h2>Ein bisschen Magie, Liebe und schöne Dinge</h2>
+          <p>
+            Für die schönsten Momente im Advent – mit warmen Lichtern, gemütlichen Stunden und Dingen,
+            die das Herz erwärmen.
+          </p>
+        </div>
+        <div class="hero-illustration" aria-hidden="true">
+          <div class="tree">
+            <div class="tree-top"></div>
+            <div class="tree-mid"></div>
+            <div class="tree-bottom"></div>
+            <div class="tree-trunk"></div>
+            <div class="ornament o1"></div>
+            <div class="ornament o2"></div>
+            <div class="ornament o3"></div>
+            <div class="ornament o4"></div>
+            <div class="star-tree">★</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="wishlist">
+        <div class="section-heading">
+          <span class="badge">Meine Wünsche</span>
+          <h3>Meine Weihnachts-Wunschliste</h3>
+        </div>
+
+        <div id="wish-grid" class="gift-grid"></div>
+
+        <div class="add-wish-section">
+          <button id="add-wish-btn" class="add-wish-btn" type="button">+ Neuer Wunsch hinzufügen</button>
+        </div>
+      </section>
+
+      <div id="wish-modal" class="modal hidden">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Neuen Wunsch hinzufügen</h2>
+            <button class="close-btn" id="close-modal" aria-label="Schließen">✕</button>
+          </div>
+
+          <form id="wish-form">
+            <div class="form-group">
+              <label for="wish-title">Wunsch-Name *</label>
+              <input type="text" id="wish-title" placeholder="z.B. Neue Jacke" required />
+            </div>
+
+            <div class="form-group">
+              <label for="wish-description">Beschreibung</label>
+              <textarea id="wish-description" placeholder="Beschreibe deinen Wunsch..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="wish-image">Bild-Link (URL)</label>
+              <input type="url" id="wish-image" placeholder="https://beispiel.com/bild.jpg" />
+              <small>Tipp: Bilder von Amazon, eBay oder anderen Shops einfügen</small>
+            </div>
+
+            <div class="form-group">
+              <label for="wish-link">Produkt-Link</label>
+              <input type="url" id="wish-link" placeholder="https://amazon.de/..." />
+              <small>Link zum Produkt, wo man es kaufen kann</small>
+            </div>
+
+            <div class="form-group">
+              <label for="wish-price">Ungefährer Preis</label>
+              <input type="text" id="wish-price" placeholder="€39" />
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="submit-btn">Wunsch speichern</button>
+              <button type="button" id="cancel-wish" class="cancel-btn">Abbrechen</button>
+            </div>
+          </form>
+        </div>
       </div>
-    `;
+    </main>
 
-    wishGrid.appendChild(card);
-  });
-
-  document.querySelectorAll(".delete-btn").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      const index = Number(e.currentTarget.dataset.index);
-      if (confirm("Wirklich löschen?")) {
-        wishes.splice(index, 1);
-        saveWishes();
-        renderWishes();
-      }
-    });
-  });
-
-  document.querySelectorAll(".edit-btn").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      const index = Number(e.currentTarget.dataset.index);
-      editWish(index);
-    });
-  });
-}
-
-function editWish(index) {
-  const wish = wishes[index];
-  document.getElementById("wish-title").value = wish.title;
-  document.getElementById("wish-description").value = wish.description || "";
-  document.getElementById("wish-image").value = wish.image || "";
-  document.getElementById("wish-link").value = wish.link || "";
-  document.getElementById("wish-price").value = wish.price || "";
-
-  wishForm.dataset.editIndex = index;
-  openModal();
-}
-
-function openModal() {
-  wishModal.classList.remove("hidden");
-  document.body.style.overflow = "hidden";
-}
-
-function closeModal() {
-  wishModal.classList.add("hidden");
-  document.body.style.overflow = "auto";
-  wishForm.reset();
-  delete wishForm.dataset.editIndex;
-}
-
-function unlockPage() {
-  loginScreen.classList.add("hidden");
-  app.classList.remove("hidden");
-  passwordInput.value = "";
-  errorMsg.textContent = "";
-  loadWishes();
-}
-
-function lockPage() {
-  app.classList.add("hidden");
-  loginScreen.classList.remove("hidden");
-  passwordInput.value = "";
-  errorMsg.textContent = "";
-}
-
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const enteredPassword = passwordInput.value.trim();
-
-  if (enteredPassword === correctPassword) {
-    unlockPage();
-  } else {
-    errorMsg.textContent = "Falsches Passwort. Bitte versuche es erneut.";
-    passwordInput.focus();
-  }
-});
-
-logoutBtn.addEventListener("click", () => {
-  lockPage();
-  passwordInput.focus();
-});
-
-addWishBtn.addEventListener("click", () => {
-  openModal();
-});
-
-closeModalBtn.addEventListener("click", closeModal);
-cancelWishBtn.addEventListener("click", closeModal);
-
-wishModal.addEventListener("click", (e) => {
-  if (e.target === wishModal) {
-    closeModal();
-  }
-});
-
-wishForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  const title = document.getElementById("wish-title").value.trim();
-  const description = document.getElementById("wish-description").value.trim();
-  const image = document.getElementById("wish-image").value.trim();
-  const link = document.getElementById("wish-link").value.trim();
-  const price = document.getElementById("wish-price").value.trim();
-
-  if (!title) {
-    alert("Bitte gib einen Namen für deinen Wunsch ein!");
-    return;
-  }
-
-  const editIndex = wishForm.dataset.editIndex;
-
-  if (editIndex !== undefined) {
-    wishes[Number(editIndex)] = { title, description, image, link, price };
-  } else {
-    wishes.push({ title, description, image, link, price });
-  }
-
-  saveWishes();
-  renderWishes();
-  closeModal();
-});
-
-window.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    if (!wishModal.classList.contains("hidden")) {
-      closeModal();
-    } else if (!loginScreen.classList.contains("hidden")) {
-      passwordInput.focus();
-    }
-  }
-});
-
-passwordInput.focus();
+    <script src="script.js"></script>
+  </body>
+</html>
